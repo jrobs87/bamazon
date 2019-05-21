@@ -4,15 +4,13 @@ Node CLI app mimicking an order placement to the Bamazon Prime service.  Users c
 
 ## Getting Started
 
-Clone the repo and run NPM install.
+Clone the repo and run NPM install.  Set up an account with docker and install on your system.
+You will also need to configure the yml file and the bamazonCustomer.js file in the cloned repo to point it to your database.
 
 ### Prerequisites
 
-You will need the latest versin of node and npm.
+You will need the latest versi0n of node and npm.  You will also need Docker running on your system to spin up a mySQL server.
 
-```
-Give examples
-```
 
 ### Installing
 
@@ -38,42 +36,33 @@ No tests are currently included.
 
 ### Break down into end to end tests
 
-Explain what these tests test and why
-
-```
-Give an example
-```
+N/A
 
 ### And coding style tests
 
-Explain what these tests test and why
-
-```
-Give an example
-```
+N/A
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+This is only intended to be run locally as an exercise in mysql db interaction in the node runtime.
 
 ## Built With
 
-* [Inquirer.js](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [mysql.js](https://maven.apache.org/) - Dependency Management
+* [inquirer.js](https://www.npmjs.com/package/inquirer) - npm package for prompts and capturing user input
+* [mysql.js](https://www.npmjs.com/package/mysql) - npm package for working with mysql database
+* [docker](https://www.docker.com/) - tooling for running a mysql server
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+This is a solo endeavor, baby.  Yeah!
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+v1.0 + minor fixes  
 
 ## Authors
 
-* **John Robertson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **John Robertson** - *Initial work* - [jr.web](https://jrobs87.github.io/portfolio-v3.0/#home)
 
 ## License
 

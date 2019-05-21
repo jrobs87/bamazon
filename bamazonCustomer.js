@@ -5,6 +5,8 @@ const inquirer = require('inquirer');
 let items = [];
 let order = '';
 let quantity = '';
+let tax = '';
+let total = '';
 
 // item object constructer
 function Item(id, name, price, dept, stock) {
@@ -101,10 +103,13 @@ productSelection = function() {
     const index = items.map(e => e.name).indexOf(answers.item);
     order = items[index];
     quantity = answers.quantity;
+    subtotal = (items[index].price * quantity).toFixed(2);
+    tax = (subtotal * 0.06).toFixed(2);
+    total = (parseFloat(subtotal) + parseFloat(tax)).toFixed(2);
 
     // check for quantity
 if (items[index].stock < answers.quantity) {
-  console.log(`Oh no! There are only ${items[index].stock} of ${answers.item} in stock.`);
+  console.log(`Oh heck! There are only ${items[index].stock} of ${answers.item} in stock.`);
   console.log('Please revise your order from the products below.')
   console.log("----------------------------------------------------------------------");
 
@@ -113,11 +118,16 @@ if (items[index].stock < answers.quantity) {
   console.log(`Item: ${items[i].name} | Price: $ ${items[i].price} | Department: ${items[i].department} | ${items[i].stock} in stock.`);
   }
   console.log("----------------------------------------------------------------------");
+
   // revise  order if quantity exceeds stock
   productSelection();
 } else {
-  console.log(`Your order of ${quantity} ${order.name} for ${((order.price * quantity) * 1.06).toFixed(2)} is ready to be placed.`)
+  console.log('## ORDER SUMMARY ##');
+  console.log(`Item: ID# ${order.id} ${order.name} (${order.price}) x ${quantity} = ${subtotal}`);
+  console.log(`Plus ${tax} in sales tax.`);
+  console.log(`Total Charge for Order: ${total}`);
   console.log("----------------------------------------------------------------------");
+  console.log(`Your order is ready to be placed.`);
   inquirer
   .prompt([
     {
@@ -137,8 +147,7 @@ if (items[index].stock < answers.quantity) {
   });
 }
 
-// productUpdate = function() {
-//   connection.query
-// }
-// rename to bamazonCustomer.js
+productUpdate = function() {
+
+}
 
