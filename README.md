@@ -9,7 +9,7 @@ You will also need to configure the yml file and the bamazonCustomer.js file in 
 
 ### Prerequisites
 
-You will need the latest versi0n of node and npm.  You will also need Docker running on your system to spin up a mySQL server.
+You will need the latest version of node and npm.  You will also need Docker running on your system to spin up a mySQL server.
 
 
 ### Installing
