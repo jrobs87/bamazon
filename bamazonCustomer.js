@@ -55,6 +55,7 @@ productUpdate = function () {
   connection.query('UPDATE products SET stock_quantity = ? WHERE item_id = ?', [stockNew, order.id])
 }
 
+// defining the continue shopping prompt
 shop = function () {
   inquirer
     .prompt([
