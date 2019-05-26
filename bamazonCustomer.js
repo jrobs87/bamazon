@@ -1,6 +1,7 @@
 const mysql = require('mysql'); // mysql for dB interaction
 const inquirer = require('inquirer'); // inquirer for prompts
 const Table = require('cli-table'); // cli-table for displaying tables 
+const colors = require('colors');
 
 // array to hold our items 
 let items = [];
@@ -39,7 +40,7 @@ displayProducts = function () {
 // defining our dB interactions
 // defining the query all function
 queryAllProducts = function (res, err) {
-  console.log("AVAILABLE PRODUCTS");
+  console.log("AVAILABLE PRODUCTS".red);
   // creates an item object for each prouct in the response, pushes to an array to use globally, displays table, and calls the produc selection function
   connection.query("SELECT * FROM products", function (err, res) {
     for (var i = 0; i < res.length; i++) {
@@ -65,7 +66,7 @@ shop = function () {
       {
         type: 'list',
         name: 'shop',
-        message: 'Would you like to continue shopping?',
+        message: 'Would you like to continue shopping?'.green,
         choices: ['Continue', 'Quit']
       }
     ])
@@ -103,7 +104,7 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
   if (err) throw err;
   console.log("\n----------------------------------------------------------------------");
-  console.log("Welcome to Bamazon Prime! You are connected as id " + connection.threadId);
+  console.log(("Welcome to Bamazon Prime! You are connected as id " + connection.threadId).red);
   console.log("----------------------------------------------------------------------\n");
 
   queryAllProducts(); // retrieve all products from db
@@ -116,7 +117,7 @@ productSelection = function () {
       {
         type: 'list',
         name: 'item',
-        message: 'What item would you like to order?',
+        message: 'What item would you like to order?'.green,
         choices: function () {
           choices = [];
           for (i = 0; i < items.length; i++) {
@@ -128,7 +129,7 @@ productSelection = function () {
       {
         type: 'input',
         name: 'quantity',
-        message: 'How many would you like to order?',
+        message: 'How many would you like to order?'.green,
         validate: function validateQuanity(name) {
           // prevents null or zero entries
           return name > 0;
@@ -156,7 +157,7 @@ productSelection = function () {
         // revise  order if quantity exceeds stock
         productSelection();
       } else {
-        console.log('## ORDER SUMMARY ##');
+        console.log('## ORDER SUMMARY ##'.red);
         console.log(`Item: ID# ${order.id} ${order.name} (${order.price}) x ${quantity} = ${subtotal}`);
         console.log(`Plus ${tax} in sales tax.`);
         console.log(`Total Charge for Order: ${total}`);
@@ -167,7 +168,7 @@ productSelection = function () {
             {
               type: 'confirm',
               name: 'placeOrder',
-              message: 'Place this order?',
+              message: 'Place this order?'.green,
             }
           ])
           .then(answers => {
