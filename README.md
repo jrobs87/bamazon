@@ -20,16 +20,13 @@ After setting up your instance of mysql, configure the following in the bamazonC
 var connection = mysql.createConnection({
   host: "your host",
 
-  // Your port; if not 3306
-  port: 3306,
+  port: 3306 or yours if not 3306,
 
-  // Your username
-  user: "user",
+  user: "username",
 
-  // Your password
-  password: "password",
+  password: "password"
+
   database: "database"
-
 });
 
 Run the seed.sql file in your dB interface (mySQL Workbench or TablePlue are both good tools for this).  With your new data, run bamazonCustomer.js from the command line, select a product, confirm the order, and select 'Continue' when prompted.
