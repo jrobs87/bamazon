@@ -13,22 +13,22 @@ You will need the latest version of node and npm.  You will also need to spin up
 
 ### Installing
 
-Once you have cloned the repo, run npm install to include the inquirer and mysql modules in the app.
+Once you have cloned the repo, run npm install to include the inquirer, cli-table, and mysql modules in the app.
 
 After setting up your instance of mysql, configure the following in the bamazonCustomer.js file:
 
 var connection = mysql.createConnection({
-  host: "localhost",
+  host: "your host",
 
   // Your port; if not 3306
   port: 3306,
 
   // Your username
-  user: "root",
+  user: "user",
 
   // Your password
-  password: "happymarmot",
-  database: "bamazon"
+  password: "password",
+  database: "database"
 
 });
 
@@ -56,6 +56,7 @@ This is only intended to be run locally as an exercise in mysql db interaction i
 
 * [inquirer.js](https://www.npmjs.com/package/inquirer) - npm package for prompts and capturing user input
 * [mysql.js](https://www.npmjs.com/package/mysql) - npm package for working with mysql database
+* [cli-table](https://www.npmjs.com/package/cli-table) - npm package for displaying data in table in cli
 
 ## Contributing
 
@@ -75,5 +76,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Shoutout to Jennifer for the table formatting!
+* Shoutout to Jennifer for the table npm package!
 

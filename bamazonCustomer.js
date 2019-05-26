@@ -1,15 +1,15 @@
-const mysql = require('mysql');
-const inquirer = require('inquirer');
+const mysql = require('mysql'); // mysql for dB interaction
+const inquirer = require('inquirer'); // inquirer for prompts
+const Table = require('cli-table'); // cli-table for displaying tables 
 
 // array to hold our items 
 let items = [];
 
-// order info vars
+// order info vairables
 let order = '';
 let quantity = '';
 let tax = '';
 let total = '';
-
 
 // item object constructer - used to move the products out of the sql response and into an object available higher up
 function Item(id, name, price, dept, stock) {
@@ -20,39 +20,42 @@ function Item(id, name, price, dept, stock) {
   this.stock = stock;
 };
 
-// defining our dB interactions
-// defining the query all function
-function queryAllProducts(res, err) {
-  console.log("AVAILABLE PRODUCTS");
-  console.log("----------------------------------------------------------------------");
-
-  // log out all products to console
-  connection.query("SELECT * FROM products", function (err, res) {
-
-    // display the product choices
-    for (var i = 0; i < res.length; i++) {
-      console.log(`${res[i].item_id} - ${res[i].product_name} - ${res[i].price} - ${res[i].department_name} - ${res[i].stock_quantity}`);
-
-      // add console.table npm
-
-      // creating new item objects
-      let item = new Item(res[i].item_id, res[i].product_name, res[i].price, res[i].department_name, res[i].stock_quantity);
-      items.push(item); // adding to items array for inquirer
-      // console.log(items);
-    };
-
-    console.log("----------------------------------------------------------------------");
-
-    productSelection(); // calls the inquirer function to select products
+// display products table
+displayProducts = function () {
+  // instantiate a new table and define properties
+  let table = new Table({
+    head: ['Item ID', 'Name', 'Price ($)', 'Department', 'In Stock'],
   });
 
-  // connection.end(); // terminate connection
+  // loop through the items and push to table array
+  for (i = 0; i < items.length; i++) {
+    table.push([items[i].id, items[i].name, items[i].price, items[i].department, items[i].stock]);
+  }
+
+  // print the table array to the console
+  console.log(table.toString());
+}
+
+// defining our dB interactions
+// defining the query all function
+queryAllProducts = function (res, err) {
+  console.log("AVAILABLE PRODUCTS");
+  // creates an item object for each prouct in the response, pushes to an array to use globally, displays table, and calls the produc selection function
+  connection.query("SELECT * FROM products", function (err, res) {
+    for (var i = 0; i < res.length; i++) {
+      let item = new Item(res[i].item_id, res[i].product_name, res[i].price, res[i].department_name, res[i].stock_quantity);
+      items.push(item); // adding to items array for inquirer and table
+    };
+    displayProducts(); // throws all items into a table and logs it to the console
+    productSelection(); // calls the inquirer function to select products
+  });
 }
 
 // defining item stock update function
 productUpdate = function () {
   let stockNew = order.stock - quantity;
-  connection.query('UPDATE products SET stock_quantity = ? WHERE item_id = ?', [stockNew, order.id])
+  connection.query('UPDATE products SET stock_quantity = ? WHERE item_id = ?', [stockNew, order.id]);
+  items = [];
 }
 
 // defining the continue shopping prompt
@@ -60,10 +63,10 @@ shop = function () {
   inquirer
     .prompt([
       {
-      type: 'list',
-      name: 'shop',
-      message: 'Would you like to continue shopping?',
-      choices: ['Continue', 'Quit']
+        type: 'list',
+        name: 'shop',
+        message: 'Would you like to continue shopping?',
+        choices: ['Continue', 'Quit']
       }
     ])
     .then(answers => {
@@ -76,7 +79,7 @@ shop = function () {
         console.log("----------------------------------------------------------------------\n");
         connection.end();
       }
-      
+
     });
 }
 
@@ -102,6 +105,7 @@ connection.connect(function (err) {
   console.log("\n----------------------------------------------------------------------");
   console.log("Welcome to Bamazon Prime! You are connected as id " + connection.threadId);
   console.log("----------------------------------------------------------------------\n");
+
   queryAllProducts(); // retrieve all products from db
 });
 
@@ -146,10 +150,7 @@ productSelection = function () {
         console.log('Please revise your order from the products below.')
         console.log("----------------------------------------------------------------------");
 
-        // redisplay items
-        for (i = 0; i < items.length; i++) {
-          console.log(`Item: ${items[i].name} | Price: $ ${items[i].price} | Department: ${items[i].department} | ${items[i].stock} in stock.`);
-        }
+        displayProducts();
         console.log("----------------------------------------------------------------------");
 
         // revise  order if quantity exceeds stock
@@ -184,11 +185,7 @@ productSelection = function () {
             }
 
           });
-        // connection.end(); // terminate connection
       }
     });
 }
 
-
-
-// process.exit(0)
